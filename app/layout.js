@@ -1,5 +1,3 @@
-import MainNavigation from "../component/MainNavigation";
-
 
 export const metadata = {
   title: "Create Next App",
@@ -11,10 +9,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body>
-      <MainNavigation/>
-      <main>{children}</main>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
