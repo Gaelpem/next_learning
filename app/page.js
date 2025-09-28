@@ -1,25 +1,43 @@
-import Cart from "../components/Cart";
-import DynamicCartItem from "../components/DynamicCartItem";
+import fs from 'node:fs/promises'
+import Link  from 'next/link'
 
+export default  async  function Home() {
+        const storedPosts =  await fs.readFile('data/post.json')
+        const posts = JSON.parse(storedPosts)
 
-export default function Home() {
   return (
 
       <>
-          <header>
-            <Cart>
-              <DynamicCartItem id={1}/>
-              <DynamicCartItem  id={2}/>
-              <DynamicCartItem id={3}/>
-            </Cart>
-          </header>
-          <main>
-          <h1>
-          Some dummy app
-          </h1>
-          </main>
-        
-    
+     <h1>NextPost</h1>
+     <p>
+          Welcome to NextPost! Here, you can read all the latest blog posts from
+          users all over the world.
+        </p>
+        <p>Unmoderated posts from anonymous users. What could go wrong?</p>
+        <Link href ="/blog/new">Share you post</Link>
+        <main>
+        <ul id="posts">
+          {posts.map((post) => (
+            <li key={post.id}>
+              <div>
+                <h2>{post.title}</h2>
+                <p>
+                  Posted on{' '}
+                  {new Date(post.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </p>
+              </div>
+              <p>
+                <Link href={`/blog/${post.id}`}>Read more</Link>
+              </p>
+            </li>
+          ))}
+        </ul>
+        </main>
+
       </>
   
   )
